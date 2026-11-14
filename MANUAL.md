@@ -38,6 +38,23 @@ um editor para ajustar o Display pelo computador.
 O instalador traz o Python dentro, escolhe o pacote do seu sistema e confere a integridade antes de executar. Não
 precisa de internet durante a instalação.
 
+### Links para baixar
+
+O instalador universal serve para todos. Para baixar só o arquivo do seu sistema, estes são os da versão 1.2.0:
+
+| Sistema | Arquivo | Tamanho | Como instalar |
+|---|---|---|---|
+| Windows, macOS e Linux | [doguia-instalar-universal.zip](https://github.com/marvinmvns/doguiadisplaycompanion/releases/latest/download/doguia-instalar-universal.zip) | 51 MB | Extraia e abra **Instalar-DoguIA** |
+| Windows 10/11, 64 bits | [doguia-usage-1.2.0-windows-x64-setup.exe](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage-1.2.0-windows-x64-setup.exe) | 22,8 MB | Abra o arquivo |
+| macOS Apple Silicon | [doguia-usage-1.2.0-macos-arm64.pkg](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage-1.2.0-macos-arm64.pkg) | 9,3 MB | Botão direito > Abrir |
+| macOS Intel | [doguia-usage-1.2.0-macos-x64.pkg](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage-1.2.0-macos-x64.pkg) | 9,9 MB | Botão direito > Abrir |
+| Debian, Ubuntu, Mint | [doguia-usage_1.2.0_amd64.deb](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage_1.2.0_amd64.deb) | 9,8 MB | `sudo apt install ./doguia-usage_1.2.0_amd64.deb`, depois `doguia-usage painel` |
+| Outros Linux de 64 bits | [doguia-usage-1.2.0-linux-x64.tar.gz](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage-1.2.0-linux-x64.tar.gz) | 9,8 MB | Descompacte e rode `./install.sh` |
+| Qualquer sistema com Python 3.9+ | [doguia-usage.pyz](https://github.com/marvinmvns/doguiadisplaycompanion/releases/download/usage-v1.2.0/doguia-usage.pyz) | 137 KB | `python3 doguia-usage.pyz painel`, com o arquivo em uma pasta fixa |
+
+Versões mais novas e o `SHA256SUMS.txt` ficam na [página de downloads](https://github.com/marvinmvns/doguiadisplaycompanion/releases/latest).
+Linux em ARM e Windows de 32 bits ou ARM não têm instalador: use o `.pyz`.
+
 ## Passo 2: configurar no painel
 
 O painel abre no navegador, mas roda só no seu computador (`127.0.0.1`). **Salvar e continuar** leva de uma etapa para
