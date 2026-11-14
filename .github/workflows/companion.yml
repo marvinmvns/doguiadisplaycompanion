@@ -1,0 +1,135 @@
+# Gera os instaladores do doguia-usage, um por sistema: o PyInstaller não compila de um sistema para outro.
+# Cada job instala o próprio pacote e roda o programa instalado antes de entregar o arquivo.
+name: companion
+on:
+  push:
+    branches: [main]
+    tags: ["usage-v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        # ubuntu-22.04: glibc 2.35, para o binário rodar também em distribuições mais antigas
+        os: [ubuntu-22.04, windows-latest, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m unittest discover -s tests
+      - run: python -m pip install pyinstaller==6.15.0
+      - name: Inno Setup
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+      - run: python packaging/build.py --installer
+      - run: python packaging/check_universal.py
+
+      - name: Testa o .deb e o .pyz
+        if: runner.os == 'Linux'
+        run: |
+          python dist/doguia-usage.pyz --version
+          python packaging/smoke.py dist/doguia-usage.pyz
+          sudo dpkg -i dist/*.deb
+          doguia-usage --version
+          python packaging/smoke.py /usr/bin/doguia-usage
+          doguia-usage </dev/null >/dev/null || [ $? -eq 2 ]
+          sudo dpkg -r doguia-usage
+          tar tzf dist/*.tar.gz
+      - name: Testa o .pkg
+        if: runner.os == 'macOS'
+        run: |
+          sudo installer -pkg dist/*.pkg -target /
+          /usr/local/bin/doguia-usage --version
+          python packaging/smoke.py /usr/local/bin/doguia-usage
+          test -x "/Applications/DoguIA Usage/Configurar DoguIA Usage.command"
+          rm dist/doguia-usage.pyz
+      - name: Testa o setup.exe
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem dist\*-setup.exe | Select-Object -First 1
+          Start-Process -Wait -FilePath $setup.FullName -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART'
+          $app = "$env:LOCALAPPDATA\Programs\DoguIA Usage"
+          if (-not (Test-Path "$app\doguia-usage-bg.exe")) { throw "doguia-usage-bg.exe não foi instalado" }
+          & "$app\doguia-usage.exe" --version
+          if ($LASTEXITCODE) { exit 1 }
+          python packaging/smoke.py "$app\doguia-usage.exe"
+          if ($LASTEXITCODE) { exit 1 }
+          Start-Process -Wait -FilePath "$app\unins000.exe" -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES'
+          Remove-Item dist\doguia-usage.pyz
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: doguia-usage-${{ matrix.os }}
+          path: dist/*
+          if-no-files-found: error
+
+  universal:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: doguia-usage-*
+          path: out
+          merge-multiple: true
+      - run: python packaging/universal.py --input out --output universal/doguia-instalar-universal.zip
+      - name: Confere o ZIP universal
+        run: |
+          unzip -q universal/doguia-instalar-universal.zip -d conferir
+          sh conferir/DoguIA/Instalar-DoguIA.command --verificar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: doguia-universal
+          path: universal/*.zip
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [build, universal]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - run: |
+          (cd out && sha256sum *) > SHA256SUMS.txt
+          mv SHA256SUMS.txt out/SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: doguia-usage ${{ github.ref_name }}
+          files: out/*
+          body: |
+            Instaladores do doguia-usage, que mostra no DoguIA Display o consumo de Claude Code, Codex, Antigravity,
+            OpenCode e DeepSeek. Todos já trazem o Python: não é preciso instalar mais nada. No fim, abre o assistente
+            visual de configuração (`doguia-usage painel`), que acha o display na rede, configura o Claude Code e liga o
+            início automático.
+
+            **Recomendado:** baixe `doguia-instalar-universal.zip`, extraia tudo e abra `Instalar-DoguIA.cmd`
+            (Windows) ou `Instalar-DoguIA.command` (macOS/Linux). O sistema é detectado automaticamente;
+            os instaladores já estão no ZIP e não precisam de Python instalado nem de internet.
+
+            | Sistema | Arquivo |
+            |---|---|
+            | Windows 10/11 | `doguia-usage-*-windows-x64-setup.exe` (sem administrador) |
+            | macOS Intel | `doguia-usage-*-macos-x64.pkg` |
+            | macOS Apple Silicon | `doguia-usage-*-macos-arm64.pkg` (sem assinatura: botão direito > Abrir) |
+            | Debian, Ubuntu, Mint | `doguia-usage_*_amd64.deb` |
+            | Outros Linux | `doguia-usage-*-linux-x64.tar.gz`, depois `./install.sh` |
+            | Qualquer sistema com Python 3.9+ | `doguia-usage.pyz` |

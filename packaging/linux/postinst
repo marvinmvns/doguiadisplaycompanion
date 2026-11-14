@@ -1,0 +1,4 @@
+#!/bin/sh
+set -e
+echo "doguia-usage instalado. Configure com o seu usuário (sem sudo): doguia-usage configurar"
+echo "Se o início automático já estava ligado: systemctl --user restart doguia-usage"

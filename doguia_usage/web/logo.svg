@@ -1,0 +1,16 @@
+<svg width="240" height="60" viewBox="0 0 240 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(10 5)">
+    <rect width="60" height="50" rx="12" fill="#58C6EF"/>
+    <rect width="58" height="50" rx="12" fill="#3AB5E1"/>
+    <rect x="4" y="4" width="50" height="42" rx="8" fill="#FFFFFF"/>
+    <rect x="8" y="8" width="42" height="34" rx="4" fill="#18181A"/>
+    <circle cx="21" cy="25" r="5" fill="#00FFFF"/>
+    <circle cx="39" cy="25" r="5" fill="#00FFFF"/>
+    <circle cx="29" cy="12" r="1.5" fill="#18181A"/>
+    <path d="M42 14C44 14 46 15 47 16" stroke="#00FFFF" stroke-width="1.2" stroke-linecap="round"/>
+    <path d="M40 16C43 14 46 16 48 18" stroke="#00FFFF" stroke-width="1.2" stroke-linecap="round"/>
+    <circle cx="44" cy="20" r="1" fill="#00FFFF"/>
+  </g>
+  <text x="80" y="42" fill="#F6F7F4" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800">Dogu</text>
+  <text x="182" y="42" fill="#58C6EF" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="800">IA</text>
+</svg>

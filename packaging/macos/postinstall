@@ -1,0 +1,13 @@
+#!/bin/bash
+# Roda como root depois do .pkg. Abre o assistente na sessão de quem está logado, e reinicia o envio se já estava ligado.
+user=$(stat -f%Su /dev/console)
+[ -z "$user" ] || [ "$user" = "root" ] && exit 0
+uid=$(id -u "$user")
+home=$(dscl . -read "/Users/$user" NFSHomeDirectory | awk '{print $2}')
+if [ -f "$home/Library/LaunchAgents/br.com.doguia.usage.plist" ]; then
+  launchctl asuser "$uid" launchctl kickstart -k "gui/$uid/br.com.doguia.usage" >/dev/null 2>&1 || true
+fi
+if [ "$COMMAND_LINE_INSTALL" != "1" ]; then
+  launchctl asuser "$uid" sudo -u "$user" open "/Applications/DoguIA Usage/Configurar DoguIA Usage.command" || true
+fi
+exit 0

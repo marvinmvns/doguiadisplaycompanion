@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Configurar DoguIA Usage
+Comment=Envia ao DoguIA Display o consumo de Claude Code, Codex, Antigravity, OpenCode e DeepSeek
+Exec=@BIN@ painel
+Terminal=true
+Icon=utilities-terminal
+Categories=Utility;

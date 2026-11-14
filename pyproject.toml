@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "doguia-usage"
+version = "1.2.0"
+description = "Envia ao DoguIA Display, por IP, o consumo de Claude Code, Codex, Antigravity, OpenCode e DeepSeek"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+doguia-usage = "doguia_usage.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["doguia_usage*"]
+
+[tool.setuptools.package-data]
+doguia_usage = ["web/*"]
