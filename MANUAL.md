@@ -1,90 +1,92 @@
-# Manual do doguia-usage
+# Manual do DoguIA Companion
 
-Para quem tem um DoguIA Display e quer ver na tela o consumo das ferramentas de IA. A versão com imagens está em
-https://www.doguia.com.br/ajuda/display/#ia. Para desenvolver ou empacotar o programa, veja o [`README.md`](README.md).
+Para quem tem um DoguIA Display e quer ver na tela o consumo das ferramentas de IA. A versão com as telas de cada
+etapa está em https://www.doguia.com.br/ajuda/display/#ia. Para instalar de outras formas, veja
+[`INSTALACAO.md`](INSTALACAO.md); para a referência dos comandos, [`REFERENCIA.md`](REFERENCIA.md).
 
 ## O que ele faz
 
-O `doguia-usage` roda no seu computador e envia ao relógio, a cada 60 segundos, quanto você já usou de Claude Code,
-Codex, Antigravity, OpenCode e DeepSeek. Ele também avisa no letreiro quando o Claude Code termina ou espera por você.
+O Companion roda no seu computador e envia ao relógio, a cada 60 segundos, quanto você já usou de Claude Code, Codex,
+Antigravity, OpenCode e DeepSeek. Ele também avisa no letreiro quando o Claude Code termina ou espera por você, e traz
+um editor para ajustar o Display pelo computador.
 
 - O computador e o relógio precisam estar na mesma rede Wi-Fi. Nada passa pela internet.
 - Só saem do computador percentuais, valores e o tempo até renovar. Conversas, código e senhas não são lidos.
-- O relógio guarda os números só na memória. Depois de 15 minutos sem envio, o painel sai da tela.
+- O relógio guarda os números só na memória. Depois de 15 minutos sem envio, o painel de IA sai da tela.
 - Com 90% ou mais de uso em alguma janela, o letreiro avisa.
 
-## Instalar
+## Antes de começar
 
-Há dois caminhos. Os dois terminam no mesmo assistente.
+- O relógio já está no Wi-Fi da casa e mostrando a hora. Um relógio novo é colocado na rede pelo app DoguIA.
+- O computador está na mesma rede do relógio, fora de VPN e de rede de convidados.
+- Pelo menos uma das ferramentas de IA já foi usada neste computador.
 
-**Instalador do seu sistema** (traz o Python dentro), na release `usage-v*`:
+## Passo 1: instalar
 
-| Sistema | Arquivo | Como instalar |
-|---|---|---|
-| Windows 10/11 | `doguia-usage-<v>-windows-x64-setup.exe` | Abra o arquivo. Instala só para o seu usuário, sem administrador |
-| macOS (Apple Silicon) | `doguia-usage-<v>-macos-arm64.pkg` | Botão direito > Abrir, porque não tem assinatura da Apple |
-| Debian, Ubuntu, Mint | `doguia-usage_<v>_amd64.deb` | `sudo apt install ./doguia-usage_<v>_amd64.deb`, depois `doguia-usage configurar` |
-| Outros Linux | `doguia-usage-<v>-linux-x64.tar.gz` | Descompacte e rode `./install.sh` |
+1. Baixe o [instalador universal](https://github.com/marvinmvns/doguiadisplaycompanion/releases/latest/download/doguia-instalar-universal.zip)
+   e **extraia o ZIP inteiro**.
+2. Abra o instalador da pasta extraída:
 
-**Arquivo único `doguia-usage.pyz`** (25 KB, precisa do Python 3.9 ou mais novo), publicado em
-https://github.com/marvinmvns/doguiadisplaycompanion/releases/latest/download/doguia-usage.pyz:
+   | Sistema | O que abrir | Observação |
+   |---|---|---|
+   | Windows 10/11 | `Instalar-DoguIA.cmd` | Instala só para o seu usuário. O Windows pode pedir confirmação, porque o instalador não tem assinatura comercial |
+   | macOS Intel e Apple Silicon | `Instalar-DoguIA.command` | Se o macOS bloquear, botão direito > Abrir. Pede a senha do Mac |
+   | Linux x64 | `sh Instalar-DoguIA.command` | Instala só para o seu usuário, sem sudo |
 
-1. Guarde o arquivo numa pasta fixa: `C:\DoguIA` no Windows, `~/doguia` no macOS e no Linux.
-2. Abra o assistente: `py C:\DoguIA\doguia-usage.pyz configurar` no Windows, ou
-   `python3 ~/doguia/doguia-usage.pyz configurar` no macOS e no Linux.
+3. No fim, o painel do Companion abre no navegador.
 
-Não mova o `.pyz` depois de configurar: o início automático e o Claude Code guardam o caminho dele. Se mudar de
-pasta, rode `configurar` de novo. Com o `.pyz`, leia `doguia-usage` nos comandos abaixo como o comando completo acima.
+O instalador traz o Python dentro, escolhe o pacote do seu sistema e confere a integridade antes de executar. Não
+precisa de internet durante a instalação.
 
-## O assistente
+## Passo 2: configurar no painel
 
-    doguia-usage configurar
+O painel abre no navegador, mas roda só no seu computador (`127.0.0.1`). **Salvar e continuar** leva de uma etapa para
+a outra. Para abrir de novo: atalho **Configurar DoguIA Usage** ou `doguia-usage painel`.
 
-Em cada pergunta, a resposta entre colchetes ou em maiúscula é a sugerida: basta apertar Enter. Ctrl+C cancela sem
-desfazer o que já foi salvo, e você pode rodar de novo quando quiser.
-
-| Passo | O que acontece |
+| Etapa | O que fazer |
 |---|---|
-| 1. Aparelho | Procura o relógio na rede (até 15 s). Se não achar, pede o IP, que aparece no app do roteador |
-| 2. Tela de consumo | Você escolhe o estilo do painel e a animação do indicador do Claude |
-| 3. Ferramentas de IA | Mostra o que foi encontrado neste computador e pergunta o crédito do DeepSeek, em dólares |
-| 4. Claude Code | Liga a status line (de onde vêm os limites) e os avisos no letreiro |
-| 5. Início automático | O envio passa a começar junto com o computador, sem janela e sem administrador |
-| 6. Teste | Envia uma vez. O painel aparece no relógio e o letreiro mostra "DoguIA Usage configurado" |
+| 1. Conectar | Clique em **Procurar na rede**. Se o relógio não for achado, digite o endereço IP dele, que aparece no app do roteador. **Verificar ambiente** confere se o computador está pronto |
+| 2. Ferramentas | Deixe marcadas as IAs que você usa e clique em **Verificar dados disponíveis** |
+| 3. Preferências | Escolha o **Painel de consumo** (Barras, Cartões, Foco ou DoguIA animado), o **Indicador do Claude**, o intervalo de envio (10 a 3600 s, padrão 60) e o **Orçamento DeepSeek** |
+| 4. Integrar | Clique em **Ativar início automático**. Se usa o Claude Code, escolha o estilo da status line e clique em **Aplicar integração Claude** |
+| 5. Conferir | Clique em **Testar conexão e envio**. O letreiro mostra um aviso e o painel de IA aparece no relógio |
 
-## Estilos do painel
+"Sem dados disponíveis" na etapa 2 quer dizer que a ferramenta ainda não gravou nada que o Companion consiga ler. Não
+quer dizer consumo zero. Sem consumo para mostrar, o teste da etapa 5 envia só o aviso, e ele já confirma a conexão.
 
-| `--view` | Estilo | O que mostra |
+## Passo 3: ligar cada IA
+
+| Ferramenta | O que fazer | Na tela |
 |---|---|---|
-| 0 | Barras | Uma linha por ferramenta, com a barra, o percentual e o tempo até renovar |
-| 1 | Cartões | Blocos em grade, com os números em destaque |
-| 2 | Destaque | A ferramenta de maior consumo em tamanho grande |
-| 3 | DoguIA animado | O pet no quarto reagindo ao consumo, com o indicador do Claude na parede |
+| Claude Code | 1. Na etapa **Integrar**, clique em **Aplicar integração Claude**. 2. Feche e abra o Claude Code. 3. Mande uma mensagem: o rodapé passa a mostrar algo como `5h: 42% \| 7d: 18%` | Janelas de 5 horas e de 7 dias. Só em contas Pro e Max, e só mudam com o Claude Code aberto |
+| Codex | Use o Codex neste computador e confira em **Verificar dados disponíveis** | Janelas de 5 horas e de 7 dias |
+| Antigravity | Abra e use pelo menos uma vez | O modelo mais usado |
+| OpenCode | Use hoje neste computador | Custo do dia, ou tokens se o modelo for gratuito |
+| DeepSeek | Informe o **Orçamento DeepSeek** em dólares. Para o saldo oficial, deixe a chave em `DEEPSEEK_API_KEY` no ambiente | Saldo, ou consumo do dia pelo OpenCode |
 
-No estilo 3, `--claude-style` escolhe a animação: 0 plasma, 1 barra gamer, 2 holograma que segue o pet, 3 reator
+A integração do Claude Code **substitui a status line existente** e guarda o arquivo anterior em
+`settings.json.doguia-bak`, na pasta `.claude` do usuário. Para voltar atrás, feche o Claude Code e recoloque essa
+cópia como `settings.json`.
+
+## Passo 4: ver no relógio
+
+O modo da tela é escolhido no app DoguIA, na página do relógio:
+
+- **Automático** (de fábrica): o painel de IA entra na rotação, depois do pet e do relógio.
+- **IA**: o painel fica fixo na tela, com a hora em cima.
+- **Mostrar o uso de IA no relógio agora**: chama o painel na hora.
+
+| Painel de consumo | O que mostra |
+|---|---|
+| Barras | Uma linha por ferramenta, com a barra, o percentual e o tempo até renovar |
+| Cartões | Blocos em grade, com os números em destaque |
+| Foco | A ferramenta de maior consumo em tamanho grande |
+| DoguIA animado | O pet no quarto reagindo ao consumo, com o indicador do Claude na parede |
+
+No DoguIA animado, o **Indicador do Claude** tem quatro animações: plasma, gamer, holograma que segue o pet e reator
 orbital.
 
-    doguia-usage setup --view 3 --claude-style 2
-
-Também dá para trocar pelo app DoguIA, em Ajustes > Uso de IA, na página do relógio. Para ver o painel o tempo todo,
-escolha o modo de tela IA no app.
-
-## Claude Code
-
-O assistente mexe só nas chaves `statusLine` e `hooks` de `~/.claude/settings.json` e guarda o arquivo anterior em
-`settings.json.doguia-bak`. Uma status line de outro programa só é trocada se você confirmar.
-
-**Limites.** O Claude Code informa as janelas de 5 horas e de 7 dias pela status line. Só contas Pro e Max recebem
-esses limites, e os números só mudam enquanto o Claude Code está aberto.
-
-| `--style` | No rodapé do Claude Code |
-|---|---|
-| `compact` | `5h: 42% \| 7d: 18%` |
-| `bars` | `Claude 5h [████░░░░░░] 42%` |
-| `badge` | `⚡ Claude [5h: 42% · 7d: 18%]` |
-| `full` | `Claude 5h: 42% (renova 1h30)` |
-
-**Avisos no letreiro** (firmware 1.1.7 ou mais nova):
+## Avisos do Claude Code no letreiro
 
 | Quando | No relógio |
 |---|---|
@@ -92,55 +94,66 @@ esses limites, e os números só mudam enquanto o Claude Code está aberto.
 | O Claude espera você | "Claude esperando você em <pasta>" ou "Claude pede permissão em <pasta>", com o letreiro âmbar |
 | Você respondeu ou fechou a sessão | O aviso some |
 
-Para testar: `doguia-usage notify --kind info --text "Olá"`. Para configurar à mão, veja o [`README.md`](README.md).
+Estilos da status line no rodapé do Claude Code:
+
+| Estilo | Exemplo |
+|---|---|
+| `compact` | `5h: 42% \| 7d: 18%` |
+| `bars` | `Claude 5h [████░░░░░░] 42%` |
+| `badge` | `⚡ Claude [5h: 42% · 7d: 18%]` |
+| `full` | `Claude 5h: 42% (renova 1h30)` |
+
+Para testar um aviso: `doguia-usage notify --kind info --text "Olá"`.
+
+## Personalizar o Display pelo computador
+
+No alto do painel, **Personalizar Display**:
+
+- **Ajustes do produto**: nome, brilho, tema, local, fuso, alarme visual e letreiro.
+- **Estúdio da tela**: a montagem da tela personalizada, com posição e estilo de cada item.
+- **Ver estado do Display**: lê o que o relógio informa sobre si.
+
+Edite e clique em **Aplicar alterações ao Display**. Só os campos alterados são enviados, e valores fora da faixa são
+recusados antes de chegar ao relógio. O editor é um formulário, sem prévia da tela.
 
 ## De onde vem cada número
 
-| Ferramenta | De onde vem | Na tela |
-|---|---|---|
-| Claude Code | Limites que o próprio Claude Code informa pela status line | Janelas de 5 horas e de 7 dias |
-| Codex | Limites gravados nas sessões, em `~/.codex/sessions` | Janelas de 5 horas e de 7 dias |
-| Antigravity | O estado de uso guardado pelo programa | O modelo mais usado |
-| OpenCode | As mensagens de hoje no banco local | Custo do dia, ou tokens se for gratuito |
-| DeepSeek | O saldo oficial, com `DEEPSEEK_API_KEY` no ambiente, ou o uso pelo OpenCode | Saldo, ou consumo do dia |
-
 Nenhum arquivo de login é aberto. No OpenCode, as tabelas de conta e credencial ficam de fora. No Antigravity, o token
-de acesso não é lido. A chave do DeepSeek nunca é gravada.
+de acesso não é lido. A chave do DeepSeek nunca é gravada. Os detalhes de cada fonte estão em
+[`REFERENCIA.md`](REFERENCIA.md).
 
-## Comandos
+## Terminal
 
 | Comando | Para quê |
 |---|---|
-| `configurar` | Abre o assistente |
+| `painel` | Abre o painel no navegador |
+| `configurar` | O mesmo assistente em perguntas no terminal |
 | `doctor` | Mostra o que foi detectado e se o relógio responde, sem enviar nada |
 | `once` | Coleta e envia uma vez |
-| `run` | Envia sem parar, a cada 60 segundos. É o que o início automático usa |
-| `setup` | Acha o relógio e salva o IP. Aceita `--host`, `--view`, `--claude-style` e `--deepseek-budget` |
+| `run` | Envia sem parar. É o que o início automático usa |
+| `setup` | Acha o relógio e salva o endereço. Aceita `--host`, `--view`, `--claude-style` e `--deepseek-budget` |
 | `install` / `uninstall` | Liga ou desliga o início automático |
-| `statusline` | Usado pelo Claude Code. Aceita `--style` |
-| `notify` | Usado pelos avisos do Claude Code, ou à mão com `--kind` e `--text` |
+| `notify` | Manda um aviso ao letreiro |
 
-Se o roteador trocar o IP do relógio, o programa procura de novo sozinho depois de três envios sem resposta.
-
-## Onde ficam os arquivos
-
-| Sistema | Configuração | Início automático |
-|---|---|---|
-| Windows | `%APPDATA%\doguia-usage` | Chave Run do usuário |
-| macOS | `~/Library/Application Support/doguia-usage` | Agente em `~/Library/LaunchAgents` |
-| Linux | `~/.config/doguia-usage` | Serviço de usuário do systemd, `doguia-usage.service` |
+Se o roteador trocar o endereço do relógio, o programa procura de novo sozinho depois de três envios sem resposta.
 
 ## Problemas comuns
 
 | Sintoma | O que fazer |
 |---|---|
-| O painel de IA está vazio ou sumiu | Rode `doguia-usage doctor` e depois `doguia-usage once`. O relógio esquece os números ao reiniciar |
-| O programa não acha o relógio | Confira se os dois estão na mesma rede, fora de rede de convidados e de VPN. Depois: `doguia-usage setup --host 192.168.x.x` |
-| Os limites do Claude não aparecem | Só existem em contas Pro e Max, com o Claude Code aberto e a status line do DoguIA ligada |
-| Mudei o `.pyz` de pasta e parou | Rode `configurar` de novo no lugar novo |
+| O painel de IA do relógio está vazio ou sumiu | Na etapa **Conferir**, clique em **Testar conexão e envio**. Confira na etapa **Integrar** se o início automático está ativado |
+| O Companion não acha o relógio | Confira se os dois estão na mesma rede, sem VPN, rede de convidados ou isolamento no roteador. Depois digite o IP na etapa **Conectar** |
+| Uma IA aparece como "sem dados disponíveis" | Use a ferramenta uma vez neste computador e verifique de novo |
+| Os limites do Claude não aparecem | Só existem em contas Pro e Max, com o Claude Code aberto e a integração aplicada |
+| O painel não abre no navegador | Rode `doguia-usage painel` e copie o endereço `127.0.0.1` que ele mostra |
 
-## Remover
+## Atualizar e remover
 
-1. `doguia-usage uninstall` desliga o início automático.
-2. Restaure `settings.json.doguia-bak`, ou apague as entradas que citam `doguia-usage` em `~/.claude/settings.json`.
-3. Apague o programa e a pasta de configuração.
+Para atualizar, baixe o instalador novo e repita o passo 1. A configuração fica preservada.
+
+Para remover:
+
+1. Na etapa **Integrar**, clique em **Desativar início automático** (ou `doguia-usage uninstall`).
+2. Se aplicou a integração do Claude Code, feche o Claude e recoloque `settings.json.doguia-bak` como `settings.json`.
+3. Desinstale: atalho **Desinstalar** no menu Iniciar do Windows, desinstalador da pasta DoguIA Usage no macOS, ou
+   `~/.local/share/doguia-usage/uninstall.sh` no Linux.
