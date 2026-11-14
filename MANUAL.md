@@ -27,7 +27,7 @@ Há dois caminhos. Os dois terminam no mesmo assistente.
 | Outros Linux | `doguia-usage-<v>-linux-x64.tar.gz` | Descompacte e rode `./install.sh` |
 
 **Arquivo único `doguia-usage.pyz`** (25 KB, precisa do Python 3.9 ou mais novo), publicado em
-https://www.doguia.com.br/ajuda/display/baixar/doguia-usage.pyz:
+https://github.com/marvinmvns/doguiadisplaycompanion/releases/latest/download/doguia-usage.pyz:
 
 1. Guarde o arquivo numa pasta fixa: `C:\DoguIA` no Windows, `~/doguia` no macOS e no Linux.
 2. Abra o assistente: `py C:\DoguIA\doguia-usage.pyz configurar` no Windows, ou
